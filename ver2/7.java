@@ -26,14 +26,17 @@ public class MapGraph {
 	public void gen() {
 		for (int i=0; i<map.length; i++) {
 			for (int j=0; j<map[0].length; j++) {
-				if ( i!=0 && j!=0 ) {
-					map[i][j].conn[0]=matrix[i-1][j];
-					map[i][j].conn[2]=matrix[i][j-1];
-				}
-				if ( i!=map.length-1 && j!=map[0].length-1 ) {
-					map[i][j].conn[1]=matrix[i+1][j];
-					map[i][j].conn[3]=matrix[i][j+1];
-				}
+				if (i>0)
+					map[i][j].conn[0]=map[i-1][j];
+
+				if (j>0)
+					map[i][j].conn[2]=map[i][j-1];
+
+				if (i<map.length)
+					map[i][j].conn[1]=map[i+1][j];
+
+				if (j<map[0].length)
+					map[i][j].conn[3]=map[i][j+1];
 
 				print(i,j);
 			}
