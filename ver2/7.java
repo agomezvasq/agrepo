@@ -18,22 +18,21 @@ public class MapGraph {
 				if ( matrix[i][j]<0 || matrix[i][j]>3 ) 
 					matrix[i][j]=1;
 
-				map[i][j]=matrix[i][j];
+				map[i][j].flavor=matrix[i][j];
 			}
 		} 
 	}
 
 	public void gen() {
 		for (int i=0; i<map.length; i++) {
-
 			for (int j=0; j<map[0].length; j++) {
 				if ( i!=0 && j!=0 ) {
-					map[i][j][0].flavor=matrix[i-1][j];
-					map[i][j][2].flavor=matrix[i][j-1];
+					map[i][j].conn[0]=matrix[i-1][j];
+					map[i][j].conn[2]=matrix[i][j-1];
 				}
 				if ( i!=map.length-1 && j!=map[0].length-1 ) {
-					map[i][j][1].flavor=matrix[i+1][j];
-					map[i][j][3].flavor=matrix[i][j+1];
+					map[i][j].conn[1]=matrix[i+1][j];
+					map[i][j].conn[3]=matrix[i][j+1];
 				}
 
 				print(i,j);
