@@ -15,14 +15,17 @@ public class MapGraph {
 		for (int i=0; i<matrix.length; i++) {
 			for (int j=0; j<matrix[0].length; j++) {
 				//if an unknown object is detected inside the matrix, it gets replaced with a OBSTL (1) in the graph matrix
-				if ( matrix[i][j]<0 || matrix[i][j]>3 ) 
-					matrix[i][j]=1;
+				if ( matrix[i][j]<0 || matrix[i][j]>3 ) {
+					matrix[i][j]=1; continue;
+				}
 
 				map[i][j].flavor=matrix[i][j];
 			}
 		} 
+		gen();
 	}
 
+	//to print all the map call method gen()
 	public void gen() {
 		for (int i=0; i<map.length; i++) {
 			for (int j=0; j<map[0].length; j++) {
@@ -32,15 +35,14 @@ public class MapGraph {
 				if (j>0)
 					map[i][j].conn[2]=map[i][j-1];
 
-				if (i<map.length)
+				if (i<map.length-1)
 					map[i][j].conn[1]=map[i+1][j];
 
-				if (j<map[0].length)
+				if (j<map[0].length-1)
 					map[i][j].conn[3]=map[i][j+1];
 
 				print(i,j);
 			}
-			
 			p();
 		}
 	}
@@ -93,10 +95,10 @@ public class MapGraph {
 			return;
 		}
 
-		if (map[i][j-1]!=null) p("←");
+		if (map[a][b-1]!=null) p("←");
 		else				   s();
 
-		if (map[i-1][j]!=null) p("↑");
+		if (map[a-1][b]!=null) p("↑");
 		else 				   s();
 
 		switch (map[a][b].flavor) {
@@ -107,10 +109,10 @@ public class MapGraph {
 			case default: p("?"); break;
 		}
 
-		if (map[i+1][j]!=null) p("↓");
+		if (map[a+1][b]!=null) p("↓");
 		else 				   s();
 
-		if (map[i][j+1]!=null) p("→");
+		if (map[a][b+1]!=null) p("→");
 		else 				   s();
 
 		s();

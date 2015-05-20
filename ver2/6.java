@@ -37,9 +37,6 @@ class Atom {
 								connRT };
 
 		this.flavor=flavor;
-
-		//Atom and its children SHOULD NOT be used before calling method gen()
-		gen();
 	}
 
 	public void printA() {
@@ -47,18 +44,6 @@ class Atom {
 
 		for ( Atom a : conn[] ) {
 			a.printA();
-		}
-	}
-
-	public void setFlavor(Flavor flavor) { this.flavor=flavor; }
-
-	public void gen() {
-		for (int i=0; i<4; i++) {
-			if (conn[i]!=null) {
-				conn[i].conn[ opp(i) ]=this;
-
-				conn[i].gen();
-			}
 		}
 	}
 }
