@@ -9,7 +9,6 @@ public class AI {
 	}
 
 	ArrayList<KNode> sol;
-	int nSol;
 
 	public KNode find(Atom atom, int side) {
 		if ( side>3 )
@@ -23,7 +22,7 @@ public class AI {
 
 		//if BLANK
 		if ( atom.conn[side]==MapGraph.BLANK ) {
-			KNode kPSOl = new KNode( find( atom.conn[side], UP ), side );
+			KNode kPSOl = new KNode( find( atom.conn[side], 0 ), side );
 			sol.add( kPSol );
 
 			if (sol!=null) {
@@ -32,7 +31,7 @@ public class AI {
 				for (KNode pSol : sol) 
 					if ( pSol.maxHeight()<bestS.maxHeight() ) 
 						bestS=pSol;
-					
+
 				return bestS;
 			}
 		}
