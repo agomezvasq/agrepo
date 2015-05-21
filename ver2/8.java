@@ -15,13 +15,12 @@ public class Latem extends JLabel {
 		this.pB=pB;
 
 		this.setFont( new Font("Segoe UI", Font.BOLD, 24) );
-		this.setText( atom.flavor );
+		this.setText( MapGraph.flavor( atom.flavor ) );
 		this.setToolTipText( "{"pa+","+pB+"}" );
 	}
 
-	public void color() {
-		this.setBackground(Color.CYAN);
-	}
+	public void color()   { this.setBackground(Color.CYAN);  }
+	public void uncolor() { this.setBackground(Color.WHITE); }
 
 	public
 }

@@ -1,6 +1,18 @@
 public class MapGraph {
 
 //
+	public final static int DRONE;
+	public final static int BLANK;
+	public final static int OBSTL;
+	public final static int SOLUT;
+
+	static {
+		DRONE=2;
+		BLANK=0;
+		OBSTL=1;
+		SOLUT=3;
+	}
+
 	public final static String flavor(int flavor) {
 		switch (flavor) {
 			case DRONE:   return "D";
