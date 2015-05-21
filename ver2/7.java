@@ -12,16 +12,6 @@ public class MapGraph {
 		OBSTL=1;
 		SOLUT=3;
 	}
-
-	public final static String flavor(int flavor) {
-		switch (flavor) {
-			case DRONE:   return "D";
-			case BLANK:   return "O";
-			case OBSTL:   return "X";
-			case SOLUT:   return "Ω";
-			case default: return "?";
-		}
-	}
 //
 
 
