@@ -19,11 +19,28 @@ public class MapGraph {
 
 	public MapGraph(int h, int w) {
 		map = new Atom[h][w];
+		
+		for (int i=0; i<h; i++)
+			for (int j=0; j<w; j++)
+				map[i][j]=new Atom( null,
+									null,
+									null,
+									null,
+									BLANK );
+
 		gen();
 	}
 
 	public MapGraph(int [][] matrix) {	
 		map = new Atom[ matrix.length ][ matrix[0].length ];
+
+		for (int k=0; k<h; i++)
+			for (int l=0; l<w; j++)
+				map[k][l]=new Atom( null,
+									null,
+									null,
+									null,
+									BLANK );
 
 		for (int i=0; i<matrix.length; i++) {
 			for (int j=0; j<matrix[0].length; j++) {
@@ -35,6 +52,7 @@ public class MapGraph {
 				map[i][j].flavor=matrix[i][j];
 			}
 		} 
+		
 		gen();
 	}
 

@@ -18,18 +18,17 @@ public class Latem extends JLabel {
 		this.setToolTipText( "{"pa+","+pB+"}" );
 
 		URL ico;
-		
 		switch ( atom.flavor ) {
 			case MapGraph.DRONE: 
-				ico = getClass().getResource("drone.png"); break;
+				ico = getClass().getResource("drone.png");  break;
 			case MapGraph.OBSTL:
-				ico = getClass().getResource("orb.png"); break;
+				ico = getClass().getResource("orb.png");    break;
 			case MapGraph.SOLUT:
 				ico = getClass().getResource("target.png"); break;
 		}
-
 		if (ico!=null)
 			this.setImageIcon( new ImageIcon(ico).getImage() );
+		
 	}
 
 	public void color()   { this.setBackground(Color.CYAN);  }
