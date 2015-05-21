@@ -1,7 +1,18 @@
-import java.lang.IOException;
-
 public class MapGraph {
-	
+
+//
+	public final static String flavor(int flavor) {
+		switch (flavor) {
+			case DRONE:   return "D";
+			case BLANK:   return "O";
+			case OBSTL:   return "X";
+			case SOLUT:   return "Ω";
+			case default: return "?";
+		}
+	}
+//
+
+
 	public Atom [][] map;
 
 	public MapGraph(int h, int w) {
@@ -117,6 +128,8 @@ public class MapGraph {
 
 		s();
 	}
+
+	public int mol() 		{ return map.length*map[0].length; }
 
 	public void p(String s) { System.out.print(s);    }
 	public void s()			{ System.out.print(" ");  }
