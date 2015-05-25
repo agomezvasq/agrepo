@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.lang.Exception;
 
-abstract class Mat extends JFrame implements ActionListener {
+class Mat extends JFrame implements ActionListener {
 
 	private JPanel cPane;
 	private JPanel tPane;
@@ -27,6 +27,8 @@ abstract class Mat extends JFrame implements ActionListener {
 		sT=new JToggleButton("slow");
 		fT=new JToggleButton("fast");
 
+		jF=new JFileChooser();
+
 		sUI=new Font( "Segoe UI Light", Font.PLAIN, 16 );
 
 		mS="";
@@ -35,9 +37,11 @@ abstract class Mat extends JFrame implements ActionListener {
 		sT.setFont(sUI);
 		fT.setFont(sUI);
 
-		br.setPreferredSize( new Dimension(200,150) );
+		br.setPreferredSize( new Dimension(-1, 40) );
 
 		tPane=new JPanel( new GridLayout(1,2) );
+
+		group=new ButtonGroup();
 
 		fT.setSelected(true);
 
@@ -50,10 +54,16 @@ abstract class Mat extends JFrame implements ActionListener {
 		group.add(sT);
 		group.add(fT);
 
-		cPane= new JPanel();
-		cPane.setLayout( new BoxLayout( cPane, BoxLayout.PAGE_AXIS ) );
+		//br.setBorderPainted(false);
+		br.setFocusPainted(false);
+		br.setContentAreaFilled(false);
 
-		cPane.add(tPane);
+		cPane= new JPanel();
+		//cPane.setLayout( new BoxLayout( cPane, BoxLayout.PAGE_AXIS ) );
+		cPane.setLayout( new BorderLayout() );
+
+		cPane.add(br, 	 BorderLayout.PAGE_START);
+		cPane.add(tPane, BorderLayout.PAGE_END  );
 
 		sT.addActionListener(this);
 		fT.addActionListener(this);
@@ -106,12 +116,19 @@ abstract class Mat extends JFrame implements ActionListener {
 				fT.setEnabled(true);
 
 				init();
+
+				cPane.remove(br);
+				this.pack();
 			}
 		}
 	}
 
 	//
 	public static void main(String [] args) {
-		//
+		Mat mat=new Mat();
+		mat.setLocationRelativeTo(null);
+		mat.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		mat.setResizable(false);
+		mat.setVisible(true);
 	}
 }

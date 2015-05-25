@@ -30,6 +30,8 @@ public class MapDraw extends JFrame {
 		add(lPane);
 
 		this.setContentPane(lPane);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 		this.pack();
 }
 
