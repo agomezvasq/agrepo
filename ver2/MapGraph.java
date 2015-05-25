@@ -1,19 +1,12 @@
 public class MapGraph {
 
-//
-	public final static int DRONE;
-	public final static int BLANK;
-	public final static int OBSTL;
-	public final static int SOLUT;
+//static block
+	public final static int DRONE=2;
+	public final static int BLANK=0;
+	public final static int OBSTL=1;
+	public final static int SOLUT=3;
 
-	static {
-		DRONE=2;
-		BLANK=0;
-		OBSTL=1;
-		SOLUT=3;
-	}
 //
-
 
 	public Atom [][] map;
 
@@ -34,8 +27,8 @@ public class MapGraph {
 	public MapGraph(int [][] matrix) {	
 		map = new Atom[ matrix.length ][ matrix[0].length ];
 
-		for (int k=0; k<h; i++)
-			for (int l=0; l<w; j++)
+		for (int k=0; k<map.length; k++)
+			for (int l=0; l<map[0].length; l++)
 				map[k][l]=new Atom( null,
 									null,
 									null,
@@ -80,23 +73,24 @@ public class MapGraph {
 
 	public void setSOLUT(int a, int b) {
 		if ( a<map.length && b<map[0].length )
-			map[a][b]=Backtrack.SOLUT;
+			map[a][b].flavor=SOLUT;
 	}
 
 	public void setDRONE(int a, int b) {
 		if ( a<map.length && b<map[0].length )
-			map[a][b]=Backtrack.DRONE;
+			map[a][b].flavor=DRONE;
 	}
 
     public void setOBSTL(int a, int b) {
 		if ( a<map.length && b<map[0].length )
-			map[a][b]=Backtrack.OBSTL;
+			map[a][b].flavor=OBSTL;
 	}
 
 	public void setBLANK(int a, int b) {
 		if ( a<map.length && b<map[0].length )
-			map[a][b]=Backtrack.BLANK;
+			map[a][b].flavor=BLANK;
 	}
+
 
 
 /*
@@ -137,7 +131,7 @@ public class MapGraph {
 			case BLANK: p("O"); break;
 			case OBSTL: p("X"); break;
 			case SOLUT: p("Ω"); break;
-			case default: p("?"); break;
+			default:	  p("?"); break;
 		}
 
 		if (map[a+1][b]!=null) p("↓");

@@ -1,15 +1,19 @@
 import java.awt.*;
-import java.swing.*;
+import java.awt.event.*;
+import javax.swing.*;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.lang.Exception;
 
 abstract class Mat extends JFrame implements ActionListener {
 
 	private JPanel cPane;
-	private ButtonGroup tPane;
+	private JPanel tPane;
+	private ButtonGroup group;
 
-	private JToggleButon sT;
-	private JToggleButon fT;
+	private JToggleButton sT;
+	private JToggleButton fT;
 	private JButton br;
 
 	private JFileChooser jF;
@@ -20,8 +24,8 @@ abstract class Mat extends JFrame implements ActionListener {
 
 	public Mat() {
 		br=new JButton("matrix");
-		sT=new JToggleButon("slow");
-		fT=new JToggleButon("fast");
+		sT=new JToggleButton("slow");
+		fT=new JToggleButton("fast");
 
 		sUI=new Font( "Segoe UI Light", Font.PLAIN, 16 );
 
@@ -31,7 +35,7 @@ abstract class Mat extends JFrame implements ActionListener {
 		sT.setFont(sUI);
 		fT.setFont(sUI);
 
-		br.setPreferredSize(200,150);
+		br.setPreferredSize( new Dimension(200,150) );
 
 		tPane=new JPanel( new GridLayout(1,2) );
 
@@ -42,6 +46,9 @@ abstract class Mat extends JFrame implements ActionListener {
 
 		tPane.add(sT);
 		tPane.add(fT);
+
+		group.add(sT);
+		group.add(fT);
 
 		cPane= new JPanel();
 		cPane.setLayout( new BoxLayout( cPane, BoxLayout.PAGE_AXIS ) );
@@ -60,7 +67,7 @@ abstract class Mat extends JFrame implements ActionListener {
 	public void init() {
 		try {
 			//complicated parsing. Don't breath this!
-			byte [] m=Files.readAllBytes( Paths.getPath(mS) );
+			byte [] m=Files.readAllBytes( Paths.get(mS) );
 
 			int c=0;
 			for (int i=0; i<m.length; i++)
@@ -70,12 +77,12 @@ abstract class Mat extends JFrame implements ActionListener {
 			int [][] matrix=new int[ m.length ][ c ];
 
 			int j=0, k=0;
-			while ( m[j]!=null ) {
+			while ( j<m.length ) {
 				if ( m[j]==10 ) {
 					k++; 
 					j=0; continue;
 				}
-				int [j][k]=(int) m[j*k]-48;
+				matrix[j][k]=(int) m[j*k]-48;
 				j++;
 			}
 
@@ -92,8 +99,8 @@ abstract class Mat extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if ( e.getActionCommand().equals("matrix") ) {
-			if ( jT.showOpenDialog(this)==JFileChooser.APPROVE_OPTION ) {
-				this.mS=JFileChooser.getSelectedFile().getPath();
+			if ( jF.showOpenDialog(this)==JFileChooser.APPROVE_OPTION ) {
+				this.mS=jF.getSelectedFile().getPath();
 
 				sT.setEnabled(true);
 				fT.setEnabled(true);

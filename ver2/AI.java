@@ -2,6 +2,24 @@ import java.util.ArrayList;
 
 public class AI {
 
+//static block
+	public final static int UP=0;
+	public final static int DW=1;
+	public final static int LT=2;
+	public final static int RT=3;
+
+	public final static int STAY=-1;
+
+/*
+	static {
+		UP=0; 	 
+		DW=1; 	  
+		LT=2;    
+		RT=3;
+	}
+*/
+//
+
 	private MapGraph map;
 
 	public AI(MapGraph map) {
@@ -21,8 +39,8 @@ public class AI {
 			return new KNode( null, STAY );
 
 		//if BLANK
-		if ( atom.conn[side]==MapGraph.BLANK ) {
-			KNode kPSOl = new KNode( find( atom.conn[side], 0 ), side );
+		if ( atom.conn[side].flavor==MapGraph.BLANK ) {
+			KNode kPSol = new KNode( find( atom.conn[side], UP ), side );
 			sol.add( kPSol );
 
 			if (sol!=null) {

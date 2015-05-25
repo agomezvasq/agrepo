@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import java.net.URL;
 
 public class Latem extends JLabel {
 	
@@ -7,7 +8,7 @@ public class Latem extends JLabel {
 	public int pB;
 
 	public Latem(Atom atom, int pA, int pB) {
-		this.setPreferredSize(32,32);
+		this.setPreferredSize( new Dimension(32,32) );
 		this.setBackground(Color.WHITE);
 		this.setBorder( BorderFactory.createLineBorder(Color.GRAY, 1) );
 
@@ -15,9 +16,9 @@ public class Latem extends JLabel {
 		this.pB=pB;
 
 		this.setFont( new Font("Segoe UI", Font.BOLD, 24) );
-		this.setToolTipText( "{"pa+","+pB+"}" );
+		this.setToolTipText( "{"+pA+","+pB+"}" );
 
-		URL ico;
+		URL ico = getClass().getResource("blank.png");
 		switch ( atom.flavor ) {
 			case MapGraph.DRONE: 
 				ico = getClass().getResource("drone.png");  break;
@@ -27,7 +28,7 @@ public class Latem extends JLabel {
 				ico = getClass().getResource("target.png"); break;
 		}
 		if (ico!=null)
-			this.setImageIcon( new ImageIcon(ico).getImage() );		
+			this.setIcon( new ImageIcon(ico) );		
 	}
 
 	public void color()   { this.setBackground(Color.CYAN);  }
