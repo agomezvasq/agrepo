@@ -25,7 +25,7 @@ public class Arbol {
 					temporal = temporal.izq;
 				}
 			}
-			if(n.llave < n-p.llave){
+			if(n.llave < n.p.llave){
 				n.p.izq = n;
 			}
 			else {
