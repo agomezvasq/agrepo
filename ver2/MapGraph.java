@@ -17,6 +17,8 @@ public class MapGraph {
 	public MapGraph(int h, int w) {
 		map = new Atom[h][w];
 
+		this.mD=mD;
+
 		this.drone=null;
 		this.solut=null;
 
@@ -26,6 +28,8 @@ public class MapGraph {
 
 	public MapGraph(int [][] matrix) {	
 		map = new Atom[ matrix.length ][ matrix[0].length ];
+
+		this.mD=mD;
 
 		iMap();
 		for (int i=0; i<matrix.length; i++) {
@@ -48,6 +52,14 @@ public class MapGraph {
 									null,
 									null,
 									BLANK, k, l );
+	}
+
+	public MapDraw mD;
+	public void setAlpha(MapDraw mD) { this.mD=mD; }
+
+	public void ai() {
+		AI ai = new AI(this,drone,solut);
+		ai.findBest();
 	}
 
 	//to print all the map call method gen()
@@ -78,13 +90,8 @@ public class MapGraph {
 						map[i][j].conn[1]=map[i][j+1];	
 
 				}
-				print(i,j);
 			}
-			p();
 		}
-
-		AI ai = new AI(this,drone,solut);
-		ai.findBest();
 	}
 
     public void swOBSTL(int a, int b) {
@@ -94,52 +101,4 @@ public class MapGraph {
 			else
 				map[a][b].flavor=BLANK;
 	}
-
-
-/*
-*   O↓→ ← O↓→ ← O↓→ ← O↓→ ← O↓→ ← O↓  
-*  ↑O↓→ ←↑O↓→ ←↑O↓→ ←↑O↓→ ←↑D↓→ ←↑O↓  
-*  ↑O↓→ ←↑O↓→ ←↑O↓→ ←↑O↓→ ←↑O↓→ ←↑O↓  
-*  ↑O↓→ ←↑X↓→ ←↑X↓→ ←↑X↓→ ←↑O↓→ ←↑O↓  
-*  ↑O↓→ ←↑O↓→ ←↑X↓→ ←↑X↓→ ←↑O↓→ ←↑O↓  
-*  ↑O↓→ ←↑O↓→ ←↑O↓→ ←↑O↓→ ←↑O↓→ ←↑O↓  
-*  ↑O → ←↑Ω → ←↑O → ←↑O → ←↑O → ←↑O   
-*
-* MapGraph concept
-*
-* Input matrix
-* 000000
-* 000020 
-* 000000 
-* 011100 
-* 001100 
-* 000000
-* 030000
-*/
-
-	public void print(int a, int b) {
-		switch (map[a][b].flavor) {
-			case BLANK: p("O"); break;
-			case SOLUT: p("Ω"); break;
-			case OBSTL: p("X"); break;
-		}
-
-		if (b!=0) p("←");
-		else	  s();
-
-		if (a!=0) p("↑");
-		else      s();
-
-		if (a!=map.length-1) 	p("↓");
-		else 				   	s();
-
-		if (b!=map[0].length-1) p("→");
-		else 				   	s();
-
-		s();
-	}
-
-	public void p(String s) { System.out.print(s);    }
-	public void s()		    { System.out.print(" ");  }
-	public void p()		    { System.out.println(""); }
 }

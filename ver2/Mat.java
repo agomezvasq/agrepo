@@ -109,9 +109,10 @@ class Mat extends JFrame implements ActionListener {
 			}
 
 			MapGraph graph=new MapGraph(matrix);
-
 			MapDraw dr=new MapDraw(graph);
-
+			graph.setAlpha(dr);
+			graph.ai();
+			
 		} catch (IOException e) {
 			System.out.println( "E|M:"+e.getMessage() );
 		}

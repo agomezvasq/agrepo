@@ -38,8 +38,24 @@ public class AI {
 								RT,
 								DW};
 
-		int dy=solut.y-origin.y;
-		int dx=origin.x-solut.x;				
+		int dy=solut.a-origin.a;
+		int dx=origin.b-solut.b;				
+
+		if (dx>dy) {
+			sides[UP]=RT;
+			sides[RT]=UP;
+			sides[DW]=LT;
+			sides[LT]=DW;
+
+			if (dy>0) {
+				sides[RT]=LT;
+				sides[LT]=RT;
+			}
+			if (dx>0) {
+				sides[UP]=DW;
+				sides[DW]=UP;
+			}
+		}
 
 		if (dy>0) {
 			sides[UP]=DW;
@@ -83,7 +99,9 @@ public class AI {
 	public void paintStack() {
 		while ( !sol.empty() ) {
 			Atom b=sol.pop();
-			System.out.println("{"+b.x+","+b.y+"}");
+
+			map.mD.grid[ b.a ][ b.b ].color();
+			System.out.println("{"+b.a+","+b.b+"}");
 		}
 	}
 }
