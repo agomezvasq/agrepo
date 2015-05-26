@@ -94,7 +94,7 @@ class Mat extends JFrame implements ActionListener {
 			while (m[i-1]!=10)
 				i++;
 
-			int [][] matrix=new int[ m.length/(i-1) ][ i-1 ];
+			int [][] matrix=new int[ m.length/(i-1)-1 ][ i-1 ];
 
 			int j=0, k=0;
 			for (byte b : m) {

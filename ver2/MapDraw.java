@@ -10,7 +10,7 @@ public class MapDraw extends JFrame {
 	private int gW;
 	private int gH;
 
-	private JLabel [][] arr;
+	public Latem [][] grid;
 	private JPanel lPane;
 
 	public MapDraw(MapGraph graph) {
@@ -23,10 +23,12 @@ public class MapDraw extends JFrame {
 
 		GridLayout grdL=new GridLayout(gW,gH);
 
+		this.grid=new Latem[ graph.map.length ][ graph.map[0].length ];
+
 		this.lPane=new JPanel( grdL );
 		lPane.setMinimumSize( new Dimension( gW*32, gH*32 ) );
 		init();
-	
+
 		add(lPane);
 
 		this.setContentPane(lPane);
@@ -42,6 +44,7 @@ public class MapDraw extends JFrame {
 				for (int j=0; j<graph.map[0].length; j++) {
 					Latem latem=new Latem( graph.map[i][j], i, j );
 					
+					grid[i][j]=latem;
 					lPane.add(latem);
 				}
 			}

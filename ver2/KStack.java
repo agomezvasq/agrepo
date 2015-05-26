@@ -18,4 +18,7 @@ class KStack {
 
 	public Atom peek()     { return stack.get(0); 			}
 	public boolean empty() { return (this.stack.size()==0); }
+
+	public boolean contains(Atom atom) { return this.stack.contains(atom); }
+	public int size() { return this.stack.size(); }
 }

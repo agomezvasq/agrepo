@@ -11,8 +11,14 @@ public class MapGraph {
 
 	public Atom [][] map;
 
+	public Atom drone;
+	public Atom solut;
+
 	public MapGraph(int h, int w) {
 		map = new Atom[h][w];
+
+		this.drone=null;
+		this.solut=null;
 
 		iMap();		
 		gen();
@@ -41,42 +47,44 @@ public class MapGraph {
 									null,
 									null,
 									null,
-									BLANK );
-	}
-
-	public void fast() {
-		
+									BLANK, k, l );
 	}
 
 	//to print all the map call method gen()
 	public void gen() {
 		for (int i=0; i<map.length; i++) {
 			for (int j=0; j<map[0].length; j++) {
-				if ( i>0 && 
-					 map[i-1][j].flavor!=OBSTL )
-					map[i][j].conn[0]=map[i-1][j];
+				if ( map[i][j].flavor==DRONE )
+					drone=map[i][j];
 
-				if ( j>0 && 
-					 map[i][j-1].flavor!=OBSTL )
-					map[i][j].conn[2]=map[i][j-1];
+				if ( map[i][j].flavor==SOLUT )
+					solut=map[i][j];
 
-				if ( i<map.length-1 && 
-					 map[i+1][j].flavor!=OBSTL )
-					map[i][j].conn[1]=map[i+1][j];
+				if ( map[i][j].flavor!=OBSTL ) {
+					if ( i>0 && 
+						 map[i-1][j].flavor!=OBSTL )
+						map[i][j].conn[0]=map[i-1][j];
 
-				if ( j<map[0].length-1 && 
-					 map[i][j+1].flavor!=OBSTL )
-					map[i][j].conn[3]=map[i][j+1];
+					if ( j>0 && 
+						 map[i][j-1].flavor!=OBSTL )
+						map[i][j].conn[3]=map[i][j-1];
 
+					if ( i<map.length-1 && 
+						 map[i+1][j].flavor!=OBSTL )
+						map[i][j].conn[2]=map[i+1][j];
+
+					if ( j<map[0].length-1 && 
+						 map[i][j+1].flavor!=OBSTL )
+						map[i][j].conn[1]=map[i][j+1];	
+
+				}
 				print(i,j);
 			}
 			p();
 		}
 
-		AI ai = new AI(this);
-		if ( map[0][0]!=null )
-			ai.btck( map[0][0] );
-		ai.paintStack();
+		AI ai = new AI(this,drone,solut);
+		ai.findBest();
 	}
 
     public void swOBSTL(int a, int b) {
