@@ -3,8 +3,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import java.util.List;
 
 import java.lang.Exception;
 import java.io.IOException;
@@ -82,12 +85,30 @@ class Mat extends JFrame implements ActionListener {
 
 		this.add(cPane);
 		this.pack();
+
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setVisible(true);
 	}
 
 	//
 	public void init() {
 		try {
 			//complicated parsing. Don't breath this!
+			List<String> m=Files.readAllLines( Paths.get(mS),
+										    Charset.defaultCharset() );
+
+			int [][] matrix=new int[ m.size() ][ m.get(0).length() ];
+			for (int i=0; i<m.size(); i++) {
+				for (int j=0; j<m.get(0).length(); j++) {
+					System.out.print( m.get(i).charAt(j)+" " );
+					matrix[i][j]=Integer.parseInt( m.get(i).charAt(j)+"" );
+				}
+				System.out.println();
+			}
+				
+/*
 			byte [] m=Files.readAllBytes( Paths.get(mS) );
 
 			int i=1;
@@ -107,13 +128,14 @@ class Mat extends JFrame implements ActionListener {
 					System.out.println();
 				}
 			}
+*/
 
 			MapGraph graph=new MapGraph(matrix);
 			MapDraw dr=new MapDraw(graph);
 			graph.setAlpha(dr);
 			graph.ai();
-			
-		} catch (IOException e) {
+
+		} catch (Exception e) {
 			System.out.println( "E|M:"+e.getMessage() );
 		}
 
@@ -154,9 +176,5 @@ class Mat extends JFrame implements ActionListener {
 	//
 	public static void main(String [] args) {
 		Mat mat=new Mat();
-		mat.setLocationRelativeTo(null);
-		mat.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		mat.setResizable(false);
-		mat.setVisible(true);
 	}
 }
