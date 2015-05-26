@@ -8,25 +8,33 @@ public class MapGraph {
 
 //
 
+
 	public Atom [][] map;
 
 	public MapGraph(int h, int w) {
 		map = new Atom[h][w];
-		
-		for (int i=0; i<h; i++)
-			for (int j=0; j<w; j++)
-				map[i][j]=new Atom( null,
-									null,
-									null,
-									null,
-									BLANK );
 
+		iMap();		
 		gen();
 	}
 
 	public MapGraph(int [][] matrix) {	
 		map = new Atom[ matrix.length ][ matrix[0].length ];
 
+		iMap();
+		for (int i=0; i<matrix.length; i++) {
+			for (int j=0; j<matrix[0].length; j++) {
+				//unknown objs get replaced with OBSTL[1] in the graph matrix
+				if ( matrix[i][j]>=0 && matrix[i][j]<=4 )
+					map[i][j].flavor=matrix[i][j];
+				else
+					matrix[i][j]=1;
+			}
+		} 
+		gen();
+	}
+
+	public void iMap() {
 		for (int k=0; k<map.length; k++)
 			for (int l=0; l<map[0].length; l++)
 				map[k][l]=new Atom( null,
@@ -34,63 +42,50 @@ public class MapGraph {
 									null,
 									null,
 									BLANK );
+	}
 
-		for (int i=0; i<matrix.length; i++) {
-			for (int j=0; j<matrix[0].length; j++) {
-				//if an unknown object is detected inside the matrix, it gets replaced with a OBSTL (1) in the graph matrix
-				if ( matrix[i][j]<0 || matrix[i][j]>3 ) {
-					matrix[i][j]=1; continue;
-				}
-
-				map[i][j].flavor=matrix[i][j];
-			}
-		} 
+	public void fast() {
 		
-		gen();
 	}
 
 	//to print all the map call method gen()
 	public void gen() {
 		for (int i=0; i<map.length; i++) {
 			for (int j=0; j<map[0].length; j++) {
-				if (i>0)
+				if ( i>0 && 
+					 map[i-1][j].flavor!=OBSTL )
 					map[i][j].conn[0]=map[i-1][j];
 
-				if (j>0)
+				if ( j>0 && 
+					 map[i][j-1].flavor!=OBSTL )
 					map[i][j].conn[2]=map[i][j-1];
 
-				if (i<map.length-1)
+				if ( i<map.length-1 && 
+					 map[i+1][j].flavor!=OBSTL )
 					map[i][j].conn[1]=map[i+1][j];
 
-				if (j<map[0].length-1)
+				if ( j<map[0].length-1 && 
+					 map[i][j+1].flavor!=OBSTL )
 					map[i][j].conn[3]=map[i][j+1];
 
 				print(i,j);
 			}
 			p();
 		}
+
+		AI ai = new AI(this);
+		if ( map[0][0]!=null )
+			ai.btck( map[0][0] );
+		ai.paintStack();
 	}
 
-	public void setSOLUT(int a, int b) {
-		if ( a<map.length && b<map[0].length )
-			map[a][b].flavor=SOLUT;
+    public void swOBSTL(int a, int b) {
+		if ( a<map.length && b<map[0].length ) 
+			if ( map[a][b].flavor==BLANK )
+				map[a][b].flavor=OBSTL;
+			else
+				map[a][b].flavor=BLANK;
 	}
-
-	public void setDRONE(int a, int b) {
-		if ( a<map.length && b<map[0].length )
-			map[a][b].flavor=DRONE;
-	}
-
-    public void setOBSTL(int a, int b) {
-		if ( a<map.length && b<map[0].length )
-			map[a][b].flavor=OBSTL;
-	}
-
-	public void setBLANK(int a, int b) {
-		if ( a<map.length && b<map[0].length )
-			map[a][b].flavor=BLANK;
-	}
-
 
 
 /*
@@ -115,37 +110,28 @@ public class MapGraph {
 */
 
 	public void print(int a, int b) {
-		if (map[a][b]==null) {
-			p("  x  ");
-			return;
-		}
-
-		if (map[a][b-1]!=null) p("←");
-		else				   s();
-
-		if (map[a-1][b]!=null) p("↑");
-		else 				   s();
-
 		switch (map[a][b].flavor) {
-			case DRONE: p("D"); break;
 			case BLANK: p("O"); break;
-			case OBSTL: p("X"); break;
 			case SOLUT: p("Ω"); break;
-			default:	  p("?"); break;
+			case OBSTL: p("X"); break;
 		}
 
-		if (map[a+1][b]!=null) p("↓");
-		else 				   s();
+		if (b!=0) p("←");
+		else	  s();
 
-		if (map[a][b+1]!=null) p("→");
-		else 				   s();
+		if (a!=0) p("↑");
+		else      s();
+
+		if (a!=map.length-1) 	p("↓");
+		else 				   	s();
+
+		if (b!=map[0].length-1) p("→");
+		else 				   	s();
 
 		s();
 	}
 
-	public int mol() 		{ return map.length*map[0].length; }
-
 	public void p(String s) { System.out.print(s);    }
-	public void s()			{ System.out.print(" ");  }
-	public void p()			{ System.out.println(""); }
+	public void s()		    { System.out.print(" ");  }
+	public void p()		    { System.out.println(""); }
 }

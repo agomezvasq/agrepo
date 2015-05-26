@@ -1,10 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import java.lang.Exception;
+import java.io.IOException;
 
 class Mat extends JFrame implements ActionListener {
 
@@ -43,10 +46,18 @@ class Mat extends JFrame implements ActionListener {
 
 		group=new ButtonGroup();
 
-		fT.setSelected(true);
+		sT.setSelected(true);
 
 		sT.setEnabled(false);
 		fT.setEnabled(false);
+
+		sT.setBorderPainted(false);
+		sT.setFocusPainted(false);
+		//sT.setContentAreaFilled(false);
+
+		fT.setBorderPainted(false);
+		fT.setFocusPainted(false);
+		//fT.setContentAreaFilled(false);
 
 		tPane.add(sT);
 		tPane.add(fT);
@@ -79,32 +90,41 @@ class Mat extends JFrame implements ActionListener {
 			//complicated parsing. Don't breath this!
 			byte [] m=Files.readAllBytes( Paths.get(mS) );
 
-			int c=0;
-			for (int i=0; i<m.length; i++)
-				if ( m[i]==10 )
-					c++;
+			int i=1;
+			while (m[i-1]!=10)
+				i++;
 
-			int [][] matrix=new int[ m.length ][ c ];
+			int [][] matrix=new int[ m.length/(i-1) ][ i-1 ];
 
 			int j=0, k=0;
-			while ( j<m.length ) {
-				if ( m[j]==10 ) {
-					k++; 
-					j=0; continue;
+			for (byte b : m) {
+				System.out.print(b+" ");
+				if (b!=10) {
+					matrix[k][j]=m[k*i+j]-48;
+					j++;
+				} else {
+					k++; j=0;
+					System.out.println();
 				}
-				matrix[j][k]=(int) m[j*k]-48;
-				j++;
 			}
 
 			MapGraph graph=new MapGraph(matrix);
 
 			MapDraw dr=new MapDraw(graph);
 
-		} catch (Exception e) {
-			System.out.println( e.getMessage() );
+		} catch (IOException e) {
+			System.out.println( "E|M:"+e.getMessage() );
 		}
 
 
+	}
+
+	public void slow() {
+
+	}
+
+	public void fast() {
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -116,10 +136,17 @@ class Mat extends JFrame implements ActionListener {
 				fT.setEnabled(true);
 
 				init();
-
-				cPane.remove(br);
-				this.pack();
 			}
+		}
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		JToggleButton b=(JToggleButton)e.getSource();
+		if ( b.isSelected() ) {
+			if ( b.getText().equals("slow") )
+				slow();
+			if ( b.getText().equals("fast") )
+				fast();
 		}
 	}
 

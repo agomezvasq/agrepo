@@ -9,6 +9,10 @@ public class Latem extends JLabel {
 
 	public Latem(Atom atom, int pA, int pB) {
 		this.setPreferredSize( new Dimension(32,32) );
+
+		this.setMinimumSize( new Dimension(32,32) );
+		this.setMaximumSize( new Dimension(32,32) );
+
 		this.setBackground(Color.WHITE);
 		this.setBorder( BorderFactory.createLineBorder(Color.GRAY, 1) );
 

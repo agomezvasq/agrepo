@@ -3,24 +3,16 @@ class Atom {
 	public Atom [] conn;
 	public int flavor;
 
-	public Atom( Atom connUP,
-				 Atom connDW,
-				 Atom connLT,
-				 Atom connRT,
+	public Atom( Atom cUP,
+				 Atom cDW,
+				 Atom cLT,
+				 Atom cRT,
 				 int flavor ) {
-		this.conn=new Atom [] { connUP,
-								connDW,
-								connLT,
-								connRT };
+		this.conn=new Atom [] { cUP,
+							 	cDW,
+							 	cLT,
+							 	cRT };
 
 		this.flavor=flavor;
-	}
-
-	public void printA() {
-		System.out.print( this.flavor + "\n" );
-
-		for ( Atom a : conn ) {
-			a.printA();
-		}
 	}
 }
